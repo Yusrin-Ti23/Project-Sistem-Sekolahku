@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h2 class="mb-3">Kontak Sekolah</h2>
+        <hr>
+
+        <p class="mb-2">
+            <strong>Email:</strong> sekolah@gmail.com
+        </p>
+        <p class="mb-3">
+            <strong>Telepon:</strong> 08123456789
+        </p>
+
+        <h4 class="mt-4">Lokasi Sekolah</h4>
+
+        <div class="ratio ratio-16x9 mt-3">
+            <iframe
+                src="https://www.google.com/maps?q=SMAN+1+Lasalimu+Selatan&output=embed"
+                style="border:0;"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+

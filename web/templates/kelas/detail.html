@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white">
+
+<h3>{{ kelas }}</h3>
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+<b>Wali Kelas :</b>
+
+{{ kelas.wali_kelas }}
+
+</p>
+
+<hr>
+
+<h4>
+
+Daftar Siswa
+
+</h4>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Nama</th>
+
+<th>Jurusan</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for s in siswa %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ s.nama }}</td>
+
+<td>{{ s.jurusan }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="3">
+
+Belum ada siswa.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+<div class="alert alert-info">
+
+Jumlah siswa :
+
+<b>
+
+{{ siswa.count }}
+
+</b>
+
+Orang
+
+</div>
+
+<a
+href="{% url 'kelas_list' %}"
+class="btn btn-secondary">
+
+Kembali
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

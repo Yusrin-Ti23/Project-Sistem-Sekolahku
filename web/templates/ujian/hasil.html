@@ -1,0 +1,127 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2 class="text-success">
+
+🎉 Ujian Selesai
+
+</h2>
+
+<hr>
+
+<h4>
+
+Nilai Anda :
+
+<span class="text-primary">
+
+{{ hasil.nilai }}
+
+</span>
+
+</h4>
+
+<p>
+
+Benar :
+<b>{{ hasil.benar }}</b>
+
+</p>
+
+<p>
+
+Salah :
+<b>{{ hasil.salah }}</b>
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white">
+
+Review Jawaban
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Pertanyaan</th>
+
+<th>Jawaban</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for j in jawaban %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ j.soal.pertanyaan }}</td>
+
+<td>{{ j.jawaban }}</td>
+
+<td>
+
+{% if j.benar %}
+
+<span class="badge bg-success">
+
+Benar
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Salah
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

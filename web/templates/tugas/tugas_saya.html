@@ -1,0 +1,89 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        📝 Tugas Saya
+    </h2>
+
+    <div class="row">
+
+        {% for t in tugas %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <h4 class="mb-0">{{ t.judul }}</h4>
+                        {% if t.status_tugas == 'Tugas telah dikerjakan dan terkirim ke guru' %}
+                            <span class="badge bg-success text-wrap" style="max-width: 220px;">
+                                {{ t.status_tugas|truncatechars:45 }}
+                            </span>
+                        {% else %}
+                            <span class="badge bg-danger text-wrap" style="max-width: 220px;">
+                                {{ t.status_tugas|default:"Tugas belum dikerjakan"|truncatechars:45 }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+
+                    <p>
+                        <b>Mata Pelajaran :</b><br>
+                        {{ t.mata_pelajaran }}
+                    </p>
+
+                    <p>
+                        <b>Kelas :</b><br>
+                        {{ t.kelas }}
+                    </p>
+
+                    <p>
+                        <b>Deadline :</b><br>
+                        {{ t.deadline }}
+                    </p>
+
+                    <p>
+                        {{ t.deskripsi|truncatechars:120 }}
+                    </p>
+
+                </div>
+
+                <div class="card-footer">
+
+                    {% if t.file_tugas %}
+                    <a href="{{ t.file_tugas.url }}"
+                       class="btn btn-success w-100 mb-2">
+                        📥 Download Soal
+                    </a>
+                    {% endif %}
+
+                    <a href="{% url 'upload_jawaban' t.id %}"
+                       class="btn btn-primary w-100">
+                        📤 Upload Jawaban
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-warning">
+            Belum ada tugas untuk kelas Anda.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

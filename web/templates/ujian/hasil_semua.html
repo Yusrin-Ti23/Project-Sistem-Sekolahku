@@ -1,0 +1,92 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+<h2>Hasil Ujian Siswa</h2>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>No</th>
+<th>Nama Siswa</th>
+<th>Ujian</th>
+<th>Mata Pelajaran</th>
+<th>Nilai</th>
+<th>Benar</th>
+<th>Salah</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for h in hasil %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ h.siswa.nama }}</td>
+
+<td>{{ h.ujian.judul }}</td>
+
+<td>{{ h.ujian.mata_pelajaran }}</td>
+
+<td>{{ h.nilai }}</td>
+
+<td>{{ h.benar }}</td>
+
+<td>{{ h.salah }}</td>
+
+<td>
+
+{% if h.selesai %}
+
+<span class="badge bg-success">
+
+Selesai
+
+</span>
+
+{% else %}
+
+<span class="badge bg-warning">
+
+Belum
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="8" class="text-center">
+
+Belum ada hasil ujian
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

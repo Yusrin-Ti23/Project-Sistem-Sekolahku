@@ -1,0 +1,70 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header">
+            <h3 class="mb-0">Pengumpulan Tugas</h3>
+        </div>
+        <div class="card-body">
+            <h4 class="mb-4">{{ tugas.judul }}</h4>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th style="width: 60px;">No</th>
+                            <th>Nama Siswa</th>
+                            <th>Mapel</th>
+                            <th>Judul Tugas</th>
+                            <th style="width: 160px;">Tanggal Upload</th>
+                            <th style="width: 140px;">Nilai</th>
+                            <th>Guru</th>
+                            <th style="width: 120px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in data %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ p.siswa.nama }}</td>
+                                <td>{{ p.tugas.mata_pelajaran }}</td>
+                                <td>{{ p.tugas.judul }}</td>
+                                <td>{{ p.tanggal_upload }}</td>
+                                <td>
+                                    {% if p.nilai %}
+                                        <span class="badge bg-success">{{ p.nilai }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Belum Dinilai</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if p.guru %}
+                                        {{ p.guru.nama }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column gap-2">
+                                        <a href="{{ p.file_jawaban.url }}" class="btn btn-success btn-sm">
+                                            Download
+                                        </a>
+
+                                        <a href="{% url 'nilai_tugas' p.id %}" class="btn btn-warning btn-sm">
+                                            Nilai
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

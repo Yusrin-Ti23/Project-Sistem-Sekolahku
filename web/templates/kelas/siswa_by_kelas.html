@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Daftar Siswa - {{ kelas }}</h3>
+    </div>
+
+    <div class="card-body">
+
+      <div class="alert alert-info">
+        Jumlah siswa: <b>{{ jumlah }}</b> orang
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>NIS</th>
+              <th>Jurusan</th>
+              <th>Foto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in siswa %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ s.nama }}</td>
+                <td>{{ s.nis }}</td>
+                <td>{{ s.jurusan }}</td>
+                <td>
+                  {% if s.foto %}
+                    <img src="{{ s.foto.url }}" style="width:40px;height:40px;object-fit:cover;border-radius:50%;" alt="Foto {{ s.nama }}">
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="text-center">Belum ada siswa untuk kelas ini.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <a href="{% url 'siswa' %}" class="btn btn-secondary mt-3">Kembali</a>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+

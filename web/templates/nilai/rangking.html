@@ -1,0 +1,47 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<h2>Ranking Siswa</h2>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Peringkat</th>
+            <th>Nama</th>
+            <th>Rata-rata</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for r in ranking %}
+
+        <tr>
+
+            <td>
+                {{ forloop.counter }}
+            </td>
+
+            <td>
+                {{ r.siswa__nama }}
+            </td>
+
+            <td>
+                {{ r.rata_rata|floatformat:2 }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

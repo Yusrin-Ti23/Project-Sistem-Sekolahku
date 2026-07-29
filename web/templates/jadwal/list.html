@@ -1,0 +1,167 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="d-flex justify-content-between mb-3">
+
+<h3>Jadwal Pelajaran</h3>
+
+<a href="{% url 'tambah_jadwal' %}"
+class="btn btn-primary">
+
++ Tambah Jadwal
+
+</a>
+
+</div>
+
+<form method="GET" class="mb-3">
+
+<div class="row g-2">
+
+<div class="col-md-4">
+
+<input type="text" name="q" class="form-control" placeholder="Cari guru/kelas/hari" value="{{ q|default:'' }}">
+
+</div>
+
+<div class="col-md-3">
+
+<select name="tahun_ajaran" class="form-select">
+
+<option value="">-- Tahun Ajaran --</option>
+
+{% for t in tahun_list %}
+
+<option value="{{ t.id }}" {% if tahun_ajaran_id and tahun_ajaran_id|slugify == t.id|slugify %}selected{% endif %}>
+
+{{ t.tahun }} - {{ t.semester }}{% if t.aktif %} (Aktif){% endif %}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="col-md-3">
+
+<select name="semester" class="form-select">
+
+<option value="">-- Semester --</option>
+
+{% for s in semester_list %}
+
+<option value="{{ s }}" {% if semester == s %}selected{% endif %}>{{ s }}</option>
+
+{% endfor %}
+
+
+</select>
+
+</div>
+
+<div class="col-md-2 d-grid">
+
+<button class="btn btn-primary" type="submit">Terapkan</button>
+
+</div>
+
+</div>
+
+</form>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>No</th>
+
+<th>Hari</th>
+
+<th>Jam</th>
+
+<th>Mata Pelajaran</th>
+
+<th>Guru</th>
+
+<th>Kelas</th>
+
+<th>Tahun Ajaran</th>
+
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for j in jadwal %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ j.hari }}</td>
+
+<td>{{ j.jam_mulai }} - {{ j.jam_selesai }}</td>
+
+<td>{{ j.mata_pelajaran }}</td>
+
+<td>{{ j.guru.nama }}</td>
+
+<td>{{ j.kelas }}</td>
+
+<td>{{ j.tahun_ajaran }}</td>
+
+<td>
+
+<a
+href="{% url 'edit_jadwal' j.id %}"
+class="btn btn-warning btn-sm">
+
+✏ Edit
+
+</a>
+
+<a
+href="{% url 'hapus_jadwal' j.id %}"
+class="btn btn-danger btn-sm ms-1"
+onclick="return confirm('Yakin hapus jadwal ini?')">
+
+🗑 Hapus
+
+</a>
+
+</td>
+
+</tr>
+
+
+{% empty %}
+
+<tr>
+
+<td colspan="8" class="text-center">
+
+Belum ada jadwal.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

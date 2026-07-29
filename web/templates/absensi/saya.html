@@ -1,0 +1,48 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<h2>Absensi Saya</h2>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Tanggal</th>
+            <th> Nama Siswa</th>
+            <th> Mata Pelajaran</th>
+            <th>Status</th>
+            <th>Keterangan</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for a in absensi %}
+
+        <tr>
+
+            <td>{{ a.tanggal }}</td>
+
+            <td>{{ a.siswa.nama }}</td>
+
+            <td>{{ a.mata_pelajaran }}</td>
+
+            <td>{{ a.status }}</td>
+
+
+            <td>{{ a.keterangan }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

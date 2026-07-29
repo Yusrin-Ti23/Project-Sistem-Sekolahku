@@ -1,0 +1,163 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<h1>Data Guru</h1>
+<form method="GET" class="mb-3">
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <input type="text"
+                   name="cari"
+                   class="form-control"
+                   placeholder="Cari nama guru">
+        </div>
+
+        <div class="col-md-4">
+            <button class="btn btn-primary">
+                Cari
+            </button>
+        </div>
+
+    </div>
+
+</form>
+
+<br>
+
+{% if user.groups.all.0.name == 'Admin' or user.groups.all.0.name == 'Operator' %}
+
+<a href="/guru/tambah/"
+   class="btn btn-primary mb-3">
+
+    Tambah Guru
+</a>
+
+{% endif %}
+
+{% if user.groups.all.0.name == 'Admin' or user.groups.all.0.name == 'Operator' %}
+
+{% endif %}
+
+<a href="/guru/pdf/"
+   class="btn btn-success mb-3">
+
+    Export PDF
+</a>
+
+<br><br>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <table class="table table-striped">
+
+            <thead class="table-primary">
+
+                <tr>
+                    <th>No</th>
+                    <th>Foto</th>
+                    <th>Nama Guru</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Email</th>
+                    <th>Aksi</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for g in guru %}
+
+                <tr>
+
+                    <td>
+                        {{ forloop.counter }}
+                    </td>
+
+                    <td>
+
+                        {% if g.foto %}
+                            <img src="{{ g.foto.url }}"
+                                 width="60"
+                                 class="rounded-circle">
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ g.nama }}</td>
+                    <td>{{ g.mata_pelajaran }}</td>
+                    <td>{{ g.email }}</td>
+
+                    <td>
+
+                        <a href="/guru/edit/{{ g.id }}"
+                           class="btn btn-warning btn-sm">
+
+                            Edit
+
+                        </a>
+
+                        <a href="/guru/hapus/{{ g.id }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm(
+                           'Yakin ingin menghapus data?')">
+
+                            Hapus
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+    <br>
+
+<div class="d-flex justify-content-center">
+
+    {% if guru.has_previous %}
+        <a href="?page=1"
+           class="btn btn-secondary me-2">
+            Awal
+        </a>
+
+        <a href="?page={{ guru.previous_page_number }}"
+           class="btn btn-primary me-2">
+            Previous
+        </a>
+    {% endif %}
+
+    <span class="btn btn-light">
+        Halaman {{ guru.number }}
+        dari {{ guru.paginator.num_pages }}
+    </span>
+
+    {% if guru.has_next %}
+        <a href="?page={{ guru.next_page_number }}"
+           class="btn btn-primary ms-2">
+            Next
+        </a>
+
+        <a href="?page={{ guru.paginator.num_pages }}"
+           class="btn btn-secondary ms-2">
+            Akhir
+        </a>
+    {% endif %}
+
+</div>
+
+  
+
+{% endblock %}

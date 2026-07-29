@@ -1,0 +1,133 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Dashboard Admin Sekolah
+</h2>
+
+<div class="row">
+
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h1>
+                    {{ total_guru }}
+                </h1>
+
+                <h5>
+                    Total Guru
+                </h5>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h1>
+                    {{ total_siswa }}
+                </h1>
+
+                <h5>
+                    Total Siswa
+                </h5>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h1>
+                    {{ total_guru|add:total_siswa }}
+                </h1>
+
+                <h5>
+                    Total Keseluruhan
+                </h5>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h4>
+            Selamat Datang,
+            {{ user.username }}
+        </h4>
+
+        <p class="text-muted">
+            Anda login sebagai admin website sekolah.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-body">
+
+        <h4>
+            Statistik Sekolah
+        </h4>
+
+        <canvas id="chartSekolah"></canvas>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx =
+document.getElementById(
+'chartSekolah'
+);
+
+new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: [
+            'Guru',
+            'Siswa'
+        ],
+
+        datasets: [{
+            label:
+            'Jumlah Data',
+
+            data: [
+                {{ total_guru }},
+                {{ total_siswa }}
+            ]
+        }]
+    }
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-header bg-success text-white text-center py-4 rounded-top-4">
+
+                    <h2 class="mb-1">
+                        🎓 Registrasi Siswa
+                    </h2>
+
+                    <p class="mb-0">
+                        Silakan isi data untuk membuat akun siswa.
+                    </p>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {% for field in form %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-bold">
+
+                                {{ field.label }}
+
+                            </label>
+
+                            {% if field.name == 'password' %}
+                            <div class="input-group">
+                                {{ field }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Lihat password">👁️</button>
+                            </div>
+                            {% elif field.name == 'password2' %}
+                            <div class="input-group">
+                                {{ field }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword2" aria-label="Lihat konfirmasi password">👁️</button>
+                            </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+
+                            {% if field.errors %}
+
+                            <div class="text-danger small mt-1">
+
+                                {{ field.errors }}
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                        <button class="btn btn-success w-100 py-2">
+
+                            <i class="fas fa-user-plus"></i>
+
+                            Daftar Sekarang
+
+                        </button>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        Sudah mempunyai akun?
+
+                        <br>
+
+                        <a href="{% url 'login' %}" class="btn btn-outline-success mt-2">
+
+                            Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+body{
+    background:#f4f7fb;
+}
+
+.card{
+    border-radius:20px;
+}
+
+.card-header{
+    border-radius:20px 20px 0 0 !important;
+}
+
+label{
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ced4da;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border-color:#198754;
+    box-shadow:0 0 8px rgba(25,135,84,.25);
+    outline:none;
+
+}
+
+.btn-success{
+
+    border-radius:10px;
+    font-size:18px;
+
+}
+
+</style>
+
+<script>
+    (function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const togglePassword2 = document.getElementById('togglePassword2');
+
+        const passwordInput = document.querySelector('input[name="password"]');
+        const password2Input = document.querySelector('input[name="password2"]');
+
+        function bindToggle(toggleBtn, inputEl) {
+            if (!toggleBtn || !inputEl) return;
+
+            toggleBtn.addEventListener('click', function () {
+                const isHidden = inputEl.type === 'password';
+                inputEl.type = isHidden ? 'text' : 'password';
+                toggleBtn.textContent = isHidden ? '🙈' : '👁️';
+            });
+        }
+
+        bindToggle(togglePassword, passwordInput);
+        bindToggle(togglePassword2, password2Input);
+    })();
+</script>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        📝 Daftar Ujian Saya
+    </h2>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>Judul</th>
+                        <th>Jenis</th>
+                        <th>Mata Pelajaran</th>
+                        <th>Kelas</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for item in data %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>{{ item.ujian.judul }}</td>
+
+                        <td>{{ item.ujian.jenis }}</td>
+
+                        <td>{{ item.ujian.mata_pelajaran }}</td>
+
+                        <td>{{ item.ujian.kelas }}</td>
+
+                        <td>{{ item.ujian.tanggal_mulai|date:"d M Y H:i" }}</td>
+
+                       <td>
+
+                        <div class="d-flex flex-column gap-2">
+
+                            {% if item.hasil %}
+
+                                <button class="btn btn-secondary btn-sm" disabled>
+
+                                    ✔ Sudah Mengerjakan
+
+                                </button>
+
+                                <a href="{% url 'hasil_ujian' item.hasil.id %}" class="btn btn-info btn-sm">
+
+                                    Lihat Nilai
+
+                                </a>
+
+                            {% else %}
+
+                                <a href="{% url 'mulai_ujian' item.ujian.id %}" class="btn btn-success btn-sm">
+
+                                    Mulai
+
+                                </a>
+
+                            {% endif %}
+
+                            {% if item.hasil %}
+
+                                <span class="badge bg-success">Selesai</span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning">Belum</span>
+
+                            {% endif %}
+
+                        </div>
+
+                       </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center">
+
+                            Belum ada ujian.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

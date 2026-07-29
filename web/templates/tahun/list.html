@@ -1,0 +1,71 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>Master Tahun Ajaran</h2>
+
+<a
+href="{% url 'tahun_create' %}"
+class="btn btn-primary mb-3">
+
+Tambah Tahun
+
+</a>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>No</th>
+
+<th>Tahun</th>
+
+<th>Semester</th>
+
+<th>Status</th>
+
+</tr>
+
+{% for t in data %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ t.tahun }}</td>
+
+<td>{{ t.semester }}</td>
+
+<td>
+
+{% if t.aktif %}
+
+<span class="badge bg-success">
+
+Aktif
+
+</span>
+
+{% else %}
+
+<span class="badge bg-secondary">
+
+Tidak Aktif
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

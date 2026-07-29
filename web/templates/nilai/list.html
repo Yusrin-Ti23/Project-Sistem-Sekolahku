@@ -1,0 +1,47 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<h2>Data Nilai</h2>
+
+<a href="/nilai/tambah/" class="btn btn-primary mb-3">
+    Tambah Nilai
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Siswa</th>
+            <th>Mapel</th>
+            <th>Tugas</th>
+            <th>UTS</th>
+            <th>UAS</th>
+            <th>Nilai Akhir</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for n in nilai %}
+        <tr>
+            <td>{{ n.siswa.nama }}</td>
+            <td>{{ n.mata_pelajaran }}</td>
+            <td>{{ n.tugas }}</td>
+            <td>{{ n.uts }}</td>
+            <td>{{ n.uas }}</td>
+            <td>{{ n.nilai_akhir }}</td>
+            <td>
+                <a href="/nilai/edit/{{ n.id }}/" class="btn btn-sm btn-warning">
+                    Edit
+                </a>
+                <a href="/nilai/hapus/{{ n.id }}/" 
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Apakah Anda yakin ingin menghapus nilai ini?');">
+                    Hapus
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

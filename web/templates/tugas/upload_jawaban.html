@@ -1,0 +1,47 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>
+        Upload Jawaban
+    </h2>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h4>{{ tugas.judul }}</h4>
+
+            <hr>
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button class="btn btn-primary">
+
+                    Upload Jawaban
+
+                </button>
+
+                <a href="{% url 'tugas_saya' %}"
+                   class="btn btn-secondary">
+
+                    Kembali
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

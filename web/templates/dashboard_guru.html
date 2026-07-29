@@ -1,0 +1,87 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        Dashboard Guru
+    </h2>
+
+    <div class="alert alert-success">
+
+        Selamat datang,
+        <b>{{ request.user.username }}</b>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4>Data Siswa</h4>
+
+                    <p>
+                        Melihat data siswa
+                    </p>
+
+                    <a href="/siswa/"
+                       class="btn btn-primary">
+
+                        Buka
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4>Input Nilai</h4>
+
+                    <p>
+                        Kelola nilai siswa
+                    </p>
+
+                    <a href="/nilai/"
+                       class="btn btn-success">
+
+                        Buka
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h4>Absensi</h4>
+                    <p>Kelola absensi siswa</p>
+                    <a href="/nilai/absensi/" class="btn btn-warning w-100">Buka</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+

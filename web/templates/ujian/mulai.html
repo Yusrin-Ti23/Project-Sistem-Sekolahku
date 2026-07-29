@@ -1,0 +1,251 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+        <div class="flex-grow-1">
+            <div class="rounded-4 p-3 shadow-sm" style="background: linear-gradient(135deg,#dc3545, #b02a37); color:#fff;">
+                <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                    <div>
+                        <div class="fw-semibold">Sisa Waktu</div>
+                        <h4 class="mb-0" style="letter-spacing:0.5px;"> <span id="timer">00:00</span></h4>
+                    </div>
+                    <div class="text-end">
+                        <div class="small opacity-75">Ulangan Tengah Semester</div>
+                        <div class="fw-semibold">{{ ujian.judul }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-0">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="sticky-md-top" style="top: 1rem;">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <b>Nomor Soal</b>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for s in soal %}
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary nomor-soal"
+                                    onclick="tampilSoal({{ forloop.counter }})"
+                                    aria-label="Tampilkan Soal {{ forloop.counter }}">
+                                    {{ forloop.counter }}
+                                </button>
+{% endfor %}
+                        </div>
+
+                        <hr>
+
+                        <div class="small">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-success">Hijau</span>
+                                <span>Sudah dijawab</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-light border text-dark">Putih</span>
+                                <span>Belum dijawab</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">Biru</span>
+                                <span>Soal aktif</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <form method="POST" class="h-100">
+                {% csrf_token %}
+
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-transparent">
+                        <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                            <div>
+                                <div class="text-muted small">Pilih jawaban lalu pindah soal</div>
+                                <div class="fw-semibold">Panel Ujian</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary" id="btnPrev">⬅ Sebelumnya</button>
+                                <button type="button" class="btn btn-outline-primary" id="btnNext">Berikutnya ➜</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        {% for s in soal %}
+                            <div id="soal{{ forloop.counter }}" class="halaman-soal">
+                                <div class="mb-3">
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Soal {{ forloop.counter }}</span>
+                                </div>
+
+                                <p class="fw-bold fs-5 mb-4">{{ s.pertanyaan }}</p>
+
+                                <div class="choices">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="soal{{ s.id }}" value="A" onclick="jawab({{ forloop.counter }})">
+                                        <label class="form-check-label">A. {{ s.pilihan_a }}</label>
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="soal{{ s.id }}" value="B" onclick="jawab({{ forloop.counter }})">
+                                        <label class="form-check-label">B. {{ s.pilihan_b }}</label>
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="soal{{ s.id }}" value="C" onclick="jawab({{ forloop.counter }})">
+                                        <label class="form-check-label">C. {{ s.pilihan_c }}</label>
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="soal{{ s.id }}" value="D" onclick="jawab({{ forloop.counter }})">
+                                        <label class="form-check-label">D. {{ s.pilihan_d }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 mb-4">
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-lg px-5 shadow"
+                        onclick="return confirm('Apakah Anda yakin ingin mengakhiri ujian?');">
+                        ✅ Selesai Ujian
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nomor-soal{
+        width: 48px;
+        height: 48px;
+        font-weight: 600;
+        border-radius: 14px;
+    }
+
+    .halaman-soal{ display: none; }
+
+    .choices .form-check-input{
+        transform: scale(1.05);
+        margin-right: .65rem;
+    }
+
+    .choices .form-check-label{
+        font-size: 1.02rem;
+    }
+
+    .form-check{
+        background: #f8fafc;
+        border: 1px solid rgba(0,0,0,.04);
+        border-radius: 14px;
+        padding: .85rem 1rem;
+    }
+
+    .form-check:has(input:checked){
+        border-color: rgba(13,110,253,.35);
+        box-shadow: 0 0 0 .25rem rgba(13,110,253,.12);
+        background: #f1f6ff;
+    }
+
+    @media (max-width: 767.98px){
+        .nomor-soal{ width: 44px; height: 44px; }
+    }
+</style>
+
+<script>
+    // Gunakan epoch ms dari backend agar interpretasi timezone konsisten
+    const selesai = {{ waktu_selesai_epoch_ms }};
+    const timerEl = document.getElementById("timer");
+
+    const timer = setInterval(() => {
+        const sekarang = new Date().getTime();
+        const selisih = selesai - sekarang;
+
+        if (selisih <= 0) {
+            clearInterval(timer);
+            alert("Waktu ujian telah habis!");
+            document.forms[0].submit();
+            return;
+        }
+
+        const jam = Math.floor(selisih / (1000 * 60 * 60));
+        const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+        const detik = Math.floor((selisih % (1000 * 60)) / 1000);
+
+        timerEl.innerHTML =
+            jam + " : " +
+            String(menit).padStart(2, '0') + " : " +
+            String(detik).padStart(2, '0');
+    }, 1000);
+
+    function jawab(n) {
+        const btn = document.querySelectorAll(".nomor-soal")[n - 1];
+        if (!btn) return;
+        btn.classList.remove("btn-outline-secondary");
+        btn.classList.add("btn-success");
+    }
+
+    let nomor = 1;
+
+    function tampilSoal(n){
+        document.querySelectorAll(".halaman-soal")
+            .forEach(e => e.style.display = "none");
+
+        document.querySelectorAll(".nomor-soal")
+            .forEach(e => {
+                e.classList.remove("btn-primary");
+                // kembalikan warna default bila belum dijawab
+                if (!e.classList.contains('btn-success')) e.classList.add('btn-outline-secondary');
+            });
+
+        document.getElementById("soal"+n).style.display = "block";
+
+        const btn = document.querySelectorAll(".nomor-soal")[n-1];
+        if (btn) {
+            btn.classList.remove("btn-outline-secondary");
+            if (!btn.classList.contains('btn-success')) btn.classList.add("btn-primary");
+            btn.classList.add("btn-primary");
+        }
+
+        nomor = n;
+    }
+
+    // Prev/Next (opsional, tidak mengubah backend)
+    document.addEventListener("DOMContentLoaded", () => {
+        tampilSoal(1);
+
+        const prev = document.getElementById('btnPrev');
+        const next = document.getElementById('btnNext');
+
+        if (prev) {
+            prev.addEventListener('click', () => {
+                if (nomor > 1) tampilSoal(nomor - 1);
+            });
+        }
+
+        if (next) {
+            next.addEventListener('click', () => {
+                const total = document.querySelectorAll('.nomor-soal').length;
+                if (nomor < total) tampilSoal(nomor + 1);
+            });
+        }
+    });
+</script>
+
+{% endblock %}
+

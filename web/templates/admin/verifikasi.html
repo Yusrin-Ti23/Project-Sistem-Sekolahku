@@ -1,0 +1,179 @@
+{% extends "admin_base.html" %}
+
+{% block extra_head %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Tidak ada.
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1100px;">
+    <h1 class="mt-3 mb-4">Verifikasi Pengguna</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mb-3">Guru Menunggu</h3>
+            <div class="list-group">
+                {% if guru %}
+                    {% for g in guru %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div><strong>{% if g.user %}{{ g.user.first_name|default:g.user.username }}{% else %}-{% endif %}</strong></div>
+
+                                    <div class="text-muted">Role: {{ g.role }}</div>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailGuruModal{{ g.id }}">Detail data</button>
+
+{% if g.user and g.user.profil %}
+<a href="{% url 'aktifkan_akun' g.user.profil.id %}"
+   class="btn btn-success btn-sm"
+   onclick="return confirm(' apakah anda ingin mengatifkan akun ini..?')">
+    Aktifkan
+</a>
+{% endif %}
+
+{% if g.user and g.user.profil %}
+<a href="{% url 'tolak_akun' g.user.profil.id %}"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm(' apakah anda ingin menolak akun ini..?')">
+    Tolak
+</a>
+{% endif %}
+                                </div>
+
+                                <div class="modal fade" id="detailGuruModal{{ g.id }}" tabindex="-1" aria-labelledby="detailGuruLabel{{ g.id }}" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="detailGuruLabel{{ g.id }}">Detail Data Guru</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="row g-3">
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Nama</div>
+                                            <div>{{ g.nama }}</div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Mata Pelajaran</div>
+                                            <div>{{ g.mata_pelajaran }}</div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Username</div>
+                                            <div>
+                                                {% if g.user %}
+                                                    {{ g.user.username }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Status</div>
+                                            <div>{{ g.status }}</div>
+                                          </div>
+                                          <div class="col-md-12">
+                                            <div class="fw-bold">Role</div>
+                                            <div>{{ g.role }}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item text-muted">Tidak ada guru yang menunggu.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="mb-3">Siswa Menunggu</h3>
+            <div class="list-group">
+                {% if siswa %}
+                    {% for s in siswa %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div><strong>{{ s.nama }}</strong></div>
+                                    <div class="text-muted">Kelas: {{ s.kelas }}</div>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailSiswaModal{{ s.id }}">Detail data</button>
+
+{% if s.user and s.user.profil %}
+<a href="{% url 'aktifkan_akun' s.user.profil.id %}" 
+                                       class="btn btn-success btn-sm"
+                                       onclick="return confirm(' apakah anda ingin mengatifkan akun ini..?')">
+                                        Aktifkan
+                                    </a>
+{% endif %}
+
+{% if s.user and s.user.profil %}
+<a href="{% url 'tolak_akun' s.user.profil.id %}" 
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm(' apakah anda ingin menolak akun ini..?')">
+                                        Tolak
+                                    </a>
+{% endif %}
+                                </div>
+
+                                <div class="modal fade" id="detailSiswaModal{{ s.id }}" tabindex="-1" aria-labelledby="detailSiswaLabel{{ s.id }}" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="detailSiswaLabel{{ s.id }}">Detail Data Siswa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="row g-3">
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Nama</div>
+                                            <div>{{ s.nama }}</div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Kelas</div>
+                                            <div>{{ s.kelas }}</div>
+                                          </div>
+                                          <div class="col-md-6">
+                                          <div class="fw-bold">Username</div>
+                                            <div>
+                                                {% if s.user %}
+                                                    {{ s.user.username }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="fw-bold">Status</div>
+                                            <div>{{ s.status }}</div>
+                                          </div>
+                                          <div class="col-md-12">
+                                            <div class="fw-bold">Role</div>
+                                            <div>{{ s.role }}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item text-muted">Tidak ada siswa yang menunggu.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

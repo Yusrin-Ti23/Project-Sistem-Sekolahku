@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center rounded-top-4 p-4">
+                    <h2 class="mb-1">👨‍🏫 Registrasi Guru</h2>
+                    <p class="mb-0">Silakan isi data guru dengan lengkap</p>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Username</label>
+                            {{ form.username }}
+                        </div>
+
+                        <!-- Nama Lengkap -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama Lengkap</label>
+                            {{ form.first_name }}
+                        </div>
+
+                        <!-- NIP -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">NIP</label>
+                            {{ form.nip }}
+                        </div>
+
+                        <!-- Mata Pelajaran -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mata Pelajaran</label>
+                            {{ form.mata_pelajaran }}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            {{ form.email }}
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Password</label>
+                            <div class="input-group">
+                                {{ form.password }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">👁️</button>
+                            </div>
+                        </div>
+
+                        <!-- Konfirmasi Password -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Konfirmasi Password</label>
+                            <div class="input-group">
+                                {{ form.password2 }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword2">👁️</button>
+                            </div>
+                        </div>
+
+
+                        <!-- Tombol Daftar -->
+                        <button class="btn btn-primary btn-lg w-100">
+                            👨‍🏫 Daftar Guru
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer text-center bg-light">
+                    <small>
+                        Sudah memiliki akun? 
+                        <a href="{% url 'login' %}" class="fw-bold text-primary">Login di sini</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styling tambahan -->
+<style>
+    body {
+        background: #f4f7fb;
+    }
+    .card {
+        border-radius: 20px;
+    }
+    .card-header {
+        border-radius: 20px 20px 0 0 !important;
+    }
+    label {
+        font-weight: 600;
+    }
+    input, select, textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 8px rgba(13,110,253,.25);
+        outline: none;
+    }
+    .btn-primary {
+        border-radius: 10px;
+        font-size: 18px;
+    }
+    /* biar input di dalam input-group tetap rapi */
+    .input-group .form-control {
+        border-radius: 10px 0 0 10px;
+    }
+    .input-group .btn {
+        border-radius: 0 10px 10px 0;
+    }
+</style>
+
+<script>
+    (function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const togglePassword2 = document.getElementById('togglePassword2');
+
+        const passwordInput = document.querySelector('input[name="password"]');
+        const password2Input = document.querySelector('input[name="password2"]');
+
+        function bindToggle(toggleBtn, inputEl) {
+            if (!toggleBtn || !inputEl) return;
+
+            toggleBtn.addEventListener('click', function () {
+                const isHidden = inputEl.type === 'password';
+                inputEl.type = isHidden ? 'text' : 'password';
+                toggleBtn.textContent = isHidden ? '🙈' : '👁️';
+            });
+        }
+
+        bindToggle(togglePassword, passwordInput);
+        bindToggle(togglePassword2, password2Input);
+    })();
+</script>
+{% endblock %}
+

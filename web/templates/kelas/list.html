@@ -1,0 +1,217 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+🏫 Manajemen Kelas
+</h2>
+
+<div class="row mb-4">
+
+<div class="col-md-4">
+
+<div class="card bg-primary text-white shadow">
+
+<div class="card-body">
+
+<h5>Jumlah Kelas</h5>
+
+<h2>{{ jumlah_kelas }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card bg-success text-white shadow">
+
+<div class="card-body">
+
+<h5>Jumlah Siswa</h5>
+
+<h2>{{ jumlah_siswa }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card bg-warning text-dark shadow">
+
+<div class="card-body">
+
+<h5>Jumlah Guru</h5>
+
+<h2>{{ jumlah_guru }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header">
+
+<b>Daftar Kelas</b>
+
+<a href="{% url 'kelas_tambah' %}"
+
+class="btn btn-primary btn-sm float-end">
+
+Tambah Kelas
+
+</a>
+
+<a
+href="{% url 'kelas_naik' %}"
+class="btn btn-success">
+
+Naik Kelas Massal
+
+</a>
+
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered table-hover">
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Tingkat</th>
+
+<th>Nama</th>
+
+<th>Jurusan</th>
+
+<th>Wali Kelas</th>
+
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for k in kelas %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ k.tingkat }}</td>
+
+<td>{{ k.nama }}</td>
+
+<td>{{ k.jurusan }}</td>
+
+<td>
+
+{{ k.wali_kelas|default:"-" }}
+
+</td>
+
+<td>
+
+<a
+href="{% url 'kelas_detail' k.id %}"
+class="btn btn-info btn-sm">
+
+Detail
+
+</a>
+
+
+<a href="{% url 'kelas_edit' k.id %}"
+
+class="btn btn-warning btn-sm me-1">
+
+Edit
+
+</a>
+
+<a href="{% url 'kelas_hapus' k.id %}"
+
+class="btn btn-danger btn-sm"
+
+onclick="return confirm('Apakah anda ingin menghapus kelas tersebut');">
+
+Hapus
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6"
+
+class="text-center">
+
+Belum ada data kelas
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+<style>
+
+.card{
+
+border-radius:15px;
+
+}
+
+.card-body h2{
+
+font-size:40px;
+
+font-weight:bold;
+
+}
+
+.table th{
+
+background:#0d6efd;
+
+color:white;
+
+}
+
+</style>

@@ -1,0 +1,107 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <div>
+
+            <h2>
+                📚 Materi Saya
+            </h2>
+
+            <p class="text-muted">
+
+                Materi sesuai kelas Anda
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h5>Total Materi</h5>
+
+            <h1 class="text-primary">
+
+                {{ total_materi }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        {% for m in materi %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <h5>
+
+                        {{ m.judul }}
+
+                    </h5>
+
+                    <hr>
+
+                    <p>
+
+                        <b>Mapel:</b>
+                        {{ m.mata_pelajaran }}
+
+                    </p>
+
+                    <p>
+
+                        <b>Kelas:</b>
+                        {{ m.kelas }}
+
+                    </p>
+
+                    <p>
+
+                        {{ m.deskripsi|truncatechars:120 }}
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer">
+                    <a href="{% url 'materi_detail' m.id %}"
+                       class="btn btn-success w-100">
+                        Lihat Materi
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-warning">
+
+            Belum ada materi untuk kelas Anda.
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

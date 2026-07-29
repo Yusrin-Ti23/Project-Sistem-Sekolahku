@@ -1,0 +1,105 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white">
+
+<h4>Persetujuan Akun Baru</h4>
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered table-hover">
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Username</th>
+
+<th>Nama</th>
+
+<th>Role</th>
+
+<th>Status</th>
+
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for p in akun %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ p.user.username }}</td>
+
+<td>{{ p.user.first_name }}</td>
+
+<td>{{ p.role }}</td>
+
+<td>
+
+<span class="badge bg-warning">
+
+{{ p.status }}
+
+</span>
+
+</td>
+
+<td>
+
+ <a href="{% url 'aktifkan_akun' s.id %}"
+   class="btn btn-success btn-sm"
+   onclick="return confirm('Aktifkan akun ini?')">
+    <i class="bi bi-check-circle"></i> Aktifkan
+</a>
+
+<a href="{% url 'tolak_guru' s.id %}"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Tolak akun siswa ini?')">
+    <i class="bi bi-x-circle"></i> Tolak
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6" class="text-center">
+
+Tidak ada akun yang menunggu persetujuan.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

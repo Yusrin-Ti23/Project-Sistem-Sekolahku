@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+Naik Kelas Massal
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="mb-3">
+
+<label>
+
+Kelas Asal
+
+</label>
+
+<select
+name="kelas_asal"
+class="form-control">
+
+{% for k in kelas %}
+
+<option value="{{ k.id }}">
+
+{{ k.tingkat }}
+{{ k.nama }}
+{{ k.jurusan }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>
+
+Kelas Tujuan
+
+</label>
+
+<select
+name="kelas_tujuan"
+class="form-control">
+
+{% for k in kelas %}
+
+<option value="{{ k.id }}">
+
+{{ k.tingkat }}
+{{ k.nama }}
+{{ k.jurusan }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<button
+class="btn btn-primary">
+
+Naikkan Semua
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

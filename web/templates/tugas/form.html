@@ -1,0 +1,41 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>{{ judul }}</h2>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button class="btn btn-success">
+
+                    Simpan
+
+                </button>
+
+                <a href="{% url 'list_tugas' %}"
+                   class="btn btn-secondary">
+
+                    Kembali
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

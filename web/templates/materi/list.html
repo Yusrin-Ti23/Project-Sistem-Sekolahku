@@ -1,0 +1,163 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="fw-bold mb-1">📚 Materi Pembelajaran</h2>
+            <p class="text-muted mb-0">Kelola seluruh materi pembelajaran siswa</p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="{% url 'tambah_materi' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Upload Materi
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted">Total Materi</div>
+                            <div class="fw-bold" style="font-size: 2rem;">{{ total_materi }}</div>
+                            <div class="small text-muted">Materi tersedia</div>
+                        </div>
+                        <div style="font-size: 40px;">📚</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <form method="GET">
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                name="q"
+                                class="form-control"
+                                placeholder="Cari judul materi..."
+                                value="{{ request.GET.q }}">
+                            <button class="btn btn-primary" type="submit">
+                                🔍 Cari
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <h5 class="mb-0">Daftar Materi</h5>
+                <div class="text-muted small">Menampilkan {{ materi.paginator.count }} data</div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                {% for m in materi %}
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="materi-card h-100 border-0 shadow-sm">
+                        <div class="p-3 d-flex flex-column h-100">
+                            <div class="d-flex align-items-start justify-content-between gap-2">
+                                <div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge rounded-pill bg-primary-soft text-primary">{{ m.mata_pelajaran }}</span>
+                                        <span class="badge rounded-pill bg-info-soft text-info">{{ m.kelas }}</span>
+                                    </div>
+                                    <a href="{{ m.file.url }}" class="materi-title d-block text-decoration-none mt-2">
+                                        <span class="fw-semibold text-dark">{{ m.judul|default:"-" }}</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="text-muted mt-2" style="min-height: 44px;">
+                                {{ m.deskripsi|truncatechars:90 }}
+                            </div>
+
+                            <div class="mt-auto pt-3">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="{{ m.file.url }}" class="btn btn-success btn-sm flex-grow-1 materi-btn-download">
+                                        ⬇️ Download
+                                    </a>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                    <a href="{% url 'edit_materi' m.id %}" class="btn btn-warning btn-sm flex-grow-1">
+                                        ✏️ Edit
+                                    </a>
+                                    <a href="{% url 'hapus_materi' m.id %}" class="btn btn-danger btn-sm flex-grow-1" onclick="return confirm('Yakin ingin menghapus?')">
+                                        🗑 Hapus
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5 text-muted">Belum ada materi</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <nav class="p-3 mb-0" aria-label="Page navigation">
+                <ul class="pagination justify-content-center mb-0">
+                    {% if materi.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ materi.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ materi.number }}</span>
+                    </li>
+
+                    {% if materi.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ materi.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Badge soft */
+    .bg-primary-soft { background: rgba(13,110,253,0.12) !important; }
+    .bg-info-soft { background: rgba(13,202,240,0.12) !important; }
+    
+    .materi-card {
+        background: #fff;
+        border-radius: 14px;
+        transition: transform .12s ease, box-shadow .12s ease;
+        overflow: hidden;
+    }
+
+    .materi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
+    }
+
+    .materi-title:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 576px) {
+        .materi-btn-download { width: 100%; }
+    }
+</style>
+
+{% endblock %}
+

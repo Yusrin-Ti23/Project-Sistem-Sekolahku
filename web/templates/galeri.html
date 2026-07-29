@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Galeri Sekolah
+</h2>
+
+<div class="row">
+
+{% for g in galeri %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card shadow">
+
+        <img src="{{ g.gambar.url }}"
+             class="card-img-top">
+
+        <div class="card-body">
+
+            <h5>
+                {{ g.judul }}
+            </h5>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

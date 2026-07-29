@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    {% if profil %}
+        <div class="text-center">
+
+            {% if profil.logo %}
+                <img src="{{ profil.logo.url }}"
+                     width="150"
+                     class="mb-3">
+            {% endif %}
+
+            <h1>
+                {{ profil.nama_sekolah }}
+            </h1>
+        </div>
+
+        <hr>
+
+        <h3>Alamat</h3>
+        <p>{{ profil.alamat }}</p>
+
+        <h3>Telepon</h3>
+        <p>{{ profil.telepon }}</p>
+
+        <h3>Email</h3>
+        <p>{{ profil.email }}</p>
+
+        <h3>Website</h3>
+        <p>{{ profil.website }}</p>
+
+        <h3>Visi</h3>
+        <p>{{ profil.visi }}</p>
+
+        <h3>Misi</h3>
+        <p>{{ profil.misi }}</p>
+
+    {% else %}
+        <p>Profil sekolah belum tersedia.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

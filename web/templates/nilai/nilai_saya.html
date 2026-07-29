@@ -1,0 +1,43 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<h2>Nilai Saya</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Mata Pelajaran</th>
+            <th>Tugas</th>
+            <th>UTS</th>
+            <th>UAS</th>
+            <th>Nilai Akhir</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for n in nilai %}
+
+        <tr>
+
+            <td>{{ n.mata_pelajaran }}</td>
+            <td>{{ n.tugas }}</td>
+            <td>{{ n.uts }}</td>
+            <td>{{ n.uas }}</td>
+            <td>{{ n.nilai_akhir }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

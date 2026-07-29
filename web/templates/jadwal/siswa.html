@@ -1,0 +1,81 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>
+
+Jadwal Pelajaran
+
+{{ siswa.nama }}
+
+</h2>
+
+<table class="table table-striped">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Hari</th>
+
+<th>Jam</th>
+
+<th>Pelajaran</th>
+
+<th>Guru</th>
+
+<th>Ruangan</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for j in jadwal %}
+
+<tr>
+
+<td>{{ j.hari }}</td>
+
+<td>
+
+{{ j.jam_mulai }}
+
+-
+
+{{ j.jam_selesai }}
+
+</td>
+
+<td>{{ j.mata_pelajaran }}</td>
+
+<td>{{ j.guru.nama }}</td>
+
+<td>{{ j.ruang }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="5" class="text-center">
+
+Belum ada jadwal.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

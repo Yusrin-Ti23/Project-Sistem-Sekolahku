@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Berita Sekolah
+</h2>
+
+<div class="row">
+
+{% for b in berita %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card shadow">
+
+        {% if b.gambar %}
+        <img src="{{ b.gambar.url }}"
+             class="card-img-top">
+        {% endif %}
+
+        <div class="card-body">
+
+            <h5>
+                {{ b.judul }}
+            </h5>
+
+            <p>
+                {{ b.isi|truncatewords:15 }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

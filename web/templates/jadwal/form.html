@@ -1,0 +1,50 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4">
+
+{{ judul|default:"Tambah Jadwal" }}
+
+</h3>
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4>Tambah Jadwal Pelajaran</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button class="btn btn-success">
+
+                    Simpan
+
+                </button>
+
+                <a href="{% url 'jadwal_list' %}"
+                   class="btn btn-secondary">
+
+                    Kembali
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Jadwal Mengajar Saya</h2>
+
+    <div style="max-height: 70vh; overflow-y: auto; overflow-x: auto;">
+        <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+        <tr>
+
+            <th>Hari</th>
+            <th>Jam</th>
+            <th>Mata Pelajaran</th>
+            <th>Kelas</th>
+            <th>Ruangan</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for j in jadwal %}
+
+        <tr>
+
+            <td>{{ j.hari }}</td>
+
+            <td>
+
+                {{ j.jam_mulai }}
+
+                -
+
+                {{ j.jam_selesai }}
+
+            </td>
+
+            <td>{{ j.mata_pelajaran }}</td>
+
+            <td>
+
+                {{ j.kelas.tingkat }}
+
+                {{ j.kelas.nama }}
+
+            </td>
+
+            <td>{{ j.ruang }}</td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="5" class="text-center">
+
+                Belum ada jadwal.
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

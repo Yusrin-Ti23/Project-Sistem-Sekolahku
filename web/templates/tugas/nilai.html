@@ -1,0 +1,91 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+        <div class="card-header">
+            <h3 class="mb-0">Penilaian Tugas</h3>
+        </div>
+
+        <div class="card-body">
+            <h4 class="mb-3">{{ pengumpulan.siswa.nama }}</h4>
+
+            <h5 class="mt-3 mb-2">Ringkasan Tugas</h5>
+            <table class="table table-bordered table-sm mb-0">
+                <tbody>
+                    <tr>
+                        <th style="width: 220px;">Judul Tugas</th>
+                        <td>{{ pengumpulan.tugas.judul }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mata Pelajaran</th>
+                        <td>{{ pengumpulan.tugas.mata_pelajaran }}</td>
+                    </tr>
+                    <tr>
+                        <th>Kelas</th>
+                        <td>{{ pengumpulan.tugas.kelas }}</td>
+                    </tr>
+                    <tr>
+                        <th>Deadline</th>
+                        <td>{{ pengumpulan.tugas.deadline }}</td>
+                    </tr>
+                    <tr>
+                        <th>Guru</th>
+                        <td>
+                            {% if pengumpulan.guru %}
+                                {{ pengumpulan.guru.nama }}
+                            {% else %}
+                                <span class="text-muted">(Belum diketahui)</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+
+            <a href="{{ pengumpulan.file_jawaban.url }}" class="btn btn-success mb-3">
+                Download Jawaban
+            </a>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label>Guru</label>
+                    <input
+                        type="text"
+                        name="guru"
+                        class="form-control"
+                        value="{% if pengumpulan.guru %}{{ pengumpulan.guru.nama }}{% endif %}"
+                        placeholder="Tulis nama guru"> 
+                </div>
+
+
+                <div class="mb-3">
+                    <label>Nilai</label>
+                    <input
+                        type="number"
+                        name="nilai"
+                        class="form-control"
+                        value="{{ pengumpulan.nilai }}">
+                </div>
+
+                <div class="mb-3">
+                    <label>Catatan</label>
+                    <textarea
+                        name="catatan"
+                        class="form-control"
+                        rows="5">{{ pengumpulan.catatan }}</textarea>
+                </div>
+
+                <button class="btn btn-primary">Simpan Nilai</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">
+        Upload Materi
+    </h2>
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button
+            type="submit"
+            class="btn btn-success">
+
+            Simpan Materi
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

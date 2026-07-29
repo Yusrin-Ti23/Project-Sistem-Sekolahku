@@ -1,0 +1,58 @@
+{% extends 'guru_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="d-flex justify-content-between mb-3">
+    <h2>Bank Ujian</h2>
+
+    <a href="{% url 'tambah_ujian' %}" class="btn btn-primary">
+      + Buat Ujian
+    </a>
+  </div>
+
+  <table class="table table-bordered">
+    <thead class="table-primary">
+      <tr>
+        <th>Judul</th>
+        <th>Jenis</th>
+        <th>Mapel</th>
+        <th>Kelas</th>
+        <th>Semester</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for u in ujian %}
+        <tr>
+          <td>{{ u.judul }}</td>
+          <td>{{ u.jenis }}</td>
+          <td>{{ u.mata_pelajaran }}</td>
+          <td>{{ u.kelas }}</td>
+          <td>{{ u.semester }}</td>
+          <td>
+            {% if u.aktif %}
+              <span class="badge bg-success">Aktif</span>
+            {% else %}
+              <span class="badge bg-danger">Nonaktif</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'daftar_soal' u.id %}" class="btn btn-primary btn-sm">
+              📖 Kelola Soal
+            </a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">Belum ada data ujian.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

@@ -1,0 +1,199 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<style>
+    .dashboard-hero{
+        border-radius:18px;
+        background:linear-gradient(135deg, rgba(253,126,20,0.18), rgba(255,159,67,0.10));
+        border:1px solid rgba(13,110,253,0.08);
+        padding:22px;
+        margin-bottom:18px;
+    }
+    .dashboard-hero h2{
+        font-weight:800;
+        margin-bottom:6px;
+    }
+    .kpi-card{
+        border-radius:16px;
+        border:1px solid rgba(13,110,253,0.08);
+        transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .kpi-card:hover{
+        transform:translateY(-2px);
+        box-shadow:0 14px 30px rgba(13,110,253,0.10);
+    }
+    .kpi-icon{
+        width:46px;
+        height:46px;
+        border-radius:14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:white;
+        font-size:20px;
+        margin-right:14px;
+    }
+    .card-link{
+        text-decoration:none;
+        color:inherit;
+    }
+
+    .muted-text{
+        color:rgba(0,0,0,0.55);
+    }
+</style>
+
+<div class="dashboard-hero">
+    <div class="row align-items-center g-3">
+        <div class="col-md-8">
+            <h2>Dashboard Siswa</h2>
+            <p class="mb-0 muted-text">
+                Selamat datang, <b>{{ request.user.username }}</b>. 
+                Kelola materi, tugas, ujian, dan pantau nilai serta absensi.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <div class="d-inline-flex align-items-center gap-2">
+                <span class="badge text-bg-primary rounded-pill px-3 py-2">Aktif</span>
+                <span class="badge text-bg-light border rounded-pill px-3 py-2">Halaman Utama</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm kpi-card">
+            <div class="card-body d-flex align-items-center">
+                <div class="kpi-icon" style="background:linear-gradient(135deg,#0d6efd,#6ea8fe)">📚</div>
+                <div>
+                    <div class="fw-bold">Rangkuman Cepat</div>
+                    <div class="muted-text" style="font-size:14px;">Akses favorit untuk proses belajar.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'materi_saya' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#fd7e14,#ff9f43)">📚</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Materi Saya</h5>
+                        <div class="muted-text" style="font-size:14px;">Lihat materi yang sesuai pembelajaran.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'tugas_saya' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#20c997,#12b886)">📝</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Tugas Saya</h5>
+                        <div class="muted-text" style="font-size:14px;">Upload dan pantau status tugas.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'hasil_tugas' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#6f42c1,#9b59b6)">📄</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Hasil Penilaian Tugas</h5>
+                        <div class="muted-text" style="font-size:14px;">Lihat nilai dari tugas yang sudah dinilai.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'nilai_saya' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#28a745,#58d68d)">⭐</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Nilai Akademik Saya</h5>
+                        <div class="muted-text" style="font-size:14px;">Pantau progres nilai per mata pelajaran.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="/nilai/rapor/">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#0d6efd,#377dff)">📄</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Download Rapor</h5>
+                        <div class="muted-text" style="font-size:14px;">Unduh rapor untuk arsip pembelajaran.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'absensi_saya' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#ffc107,#ffb84d)">🕒</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Absensi Saya</h5>
+                        <div class="muted-text" style="font-size:14px;">Cek riwayat kehadiran.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <a class="card-link" href="{% url 'ujian_saya' %}">
+            <div class="card shadow-sm kpi-card h-100">
+                <div class="card-body d-flex align-items-start">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#dc3545,#ff6b6b)">🧠</div>
+                    <div>
+                        <h5 class="mb-2 fw-bold">Ujian Saya</h5>
+                        <div class="muted-text" style="font-size:14px;">Lihat daftar ujian dan mulai mengerjakan.</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-8">
+        <div class="card shadow-sm kpi-card h-100" style="background:rgba(255,255,255,0.6);">
+            <div class="card-body">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="kpi-icon" style="background:linear-gradient(135deg,#198754,#28d17c)">📅</div>
+                    <div>
+                        <h5 class="fw-bold mb-2">Jadwal Pelajaran</h5>
+                        <div class="muted-text" style="font-size:14px;">Lihat jadwal harian/ mingguan yang tersedia.</div>
+                        <div class="mt-3">
+                            <a class="btn btn-primary px-4" href="{% url 'jadwal_siswa' %}">Buka Jadwal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

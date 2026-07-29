@@ -1,0 +1,26 @@
+{% extends 'siswa_base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="alert alert-warning mt-5">
+
+<h3>
+
+{{ pesan }}
+
+</h3>
+
+<a href="{% url 'ujian_saya' %}"
+class="btn btn-primary">
+
+Kembali
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}
