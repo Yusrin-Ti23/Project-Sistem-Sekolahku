@@ -759,3 +759,9 @@ Catatan Project :
 
 # url (api) :
  path("siswa/",views.siswa_api,name="api_siswa"),
+
+
+ #mentrack / mengubah for girthub :
+ 1. git add .
+ 2. git commit -m "judul perubahan yang dilakukan"
+ 3. git push
