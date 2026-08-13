@@ -52,6 +52,7 @@ urlpatterns = [
     path('siswa/pdf/',views.export_siswa_pdf,name='siswa_pdf'),
 
     path('berita/',views.berita,name='berita'),
+    path('berita/<int:id>/',views.berita_detail,name='detail_berita'),
 
     path('profil/',views.profil,name='profil'),
     path('galeri/',views.galeri,name='galeri'),

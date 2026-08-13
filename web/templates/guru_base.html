@@ -14,13 +14,14 @@
             background:#f4f6f9;
         }
 
-.sidebar{
+        .sidebar{
             width:250px;
             height:100vh;
             background:#198754;
             position:fixed;
-            overflow-y:auto;
+            overflow-y:scroll;
             padding-bottom:20px;
+            scroll-behavior:smooth;
         }
 
         .sidebar h3{
@@ -37,8 +38,10 @@
             transition:0.3s;
         }
 
-        .sidebar a:hover{
+        .sidebar a:hover,
+        .sidebar a.active{
             background:rgba(255,255,255,0.2);
+            font-weight:600;
         }
 
     .content{
@@ -106,40 +109,40 @@
 
 
 
-    <a href="{% url 'dashboard_guru' %}">
+    <a href="{% url 'dashboard_guru' %}" class="{% if request.path == '/dashboard/guru/' %}active{% endif %}">
         🧭 Dashboard
     </a>
 
-<a class="nav-link" href="{% url 'jadwal_guru' %}">
+<a class="nav-link" href="{% url 'jadwal_guru' %}" class="{% if '/jadwal/' in request.path and 'guru' in request.path %}active{% endif %}">
         📅 Jadwal Mengajar
     </a>
 
 
-    <a href="/siswa/">
+    <a href="/siswa/" class="{% if '/siswa/' in request.path %}active{% endif %}">
         👨‍🎓 Data Siswa
     </a>
 
-    <a href="{% url 'materi' %}">
+    <a href="{% url 'materi' %}" class="{% if '/nilai/materi/' in request.path %}active{% endif %}">
     📚 Materi
     </a>
 
-    <a href="{% url 'list_tugas' %}">
+    <a href="{% url 'list_tugas' %}" class="{% if '/nilai/tugas/' in request.path %}active{% endif %}">
     📝 Tugas Online
     </a>
 
-    <a href="/nilai/">
+    <a href="/nilai/" class="{% if request.path == '/nilai/' %}active{% endif %}">
         🏅 Nilai
     </a>
 
-    <a href="/nilai/absensi/">
+    <a href="/nilai/absensi/" class="{% if '/nilai/absensi/' in request.path %}active{% endif %}">
         🗂️ Absensi
     </a>
 
-    <a href="{% url 'daftar_ujian' %}">
+    <a href="{% url 'daftar_ujian' %}" class="{% if '/nilai/ujian/' in request.path or '/nilai/soal/' in request.path %}active{% endif %}">
     🧠 Bank Ujian
     </a>
 
-    <a href="{% url 'hasil_semua' %}">
+    <a href="{% url 'hasil_semua' %}" class="{% if '/nilai/hasil-ujian/' in request.path %}active{% endif %}">
     📊 Hasil Ujian
 </a>
 

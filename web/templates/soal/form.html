@@ -14,6 +14,13 @@
 
 <div class="card-body">
 
+{% if ujian %}
+<div class="alert alert-info">
+    <strong>Ujian:</strong> {{ ujian.judul }}
+    {% if ujian.jenis %} ({{ ujian.jenis }}){% endif %}
+</div>
+{% endif %}
+
 <form method="POST">
 
 {% csrf_token %}

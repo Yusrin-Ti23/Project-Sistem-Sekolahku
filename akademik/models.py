@@ -2,11 +2,12 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from web.models import Siswa, Guru
+from web.models import Siswa, Guru, Kelas
 from web.models import (
     Siswa,
     Guru,
     TahunAjaran,
+    Kelas,
 )
 
 
@@ -22,7 +23,12 @@ class Ujian(models.Model):
 
     mata_pelajaran = models.CharField(max_length=100)
 
-    kelas = models.CharField(max_length=20)
+    kelas = models.ForeignKey(
+        Kelas,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
     jurusan = models.CharField(max_length=50)
 
@@ -40,6 +46,13 @@ class Ujian(models.Model):
 
     aktif = models.BooleanField(
         default=True
+    )
+
+    guru = models.ForeignKey(
+        Guru,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
@@ -173,7 +186,12 @@ class Tugas(models.Model):
 
     mata_pelajaran = models.CharField(max_length=100)
 
-    kelas = models.CharField(max_length=20)
+    kelas = models.ForeignKey(
+        Kelas,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
     deskripsi = models.TextField()
 
@@ -186,6 +204,13 @@ class Tugas(models.Model):
     deadline = models.DateTimeField()
 
     tanggal_dibuat = models.DateTimeField(auto_now_add=True)
+
+    guru = models.ForeignKey(
+        Guru,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.judul
@@ -264,8 +289,11 @@ class Materi(models.Model):
         max_length=100
     )
 
-    kelas = models.CharField(
-        max_length=20
+    kelas = models.ForeignKey(
+        Kelas,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )
 
     deskripsi = models.TextField()
@@ -320,6 +348,13 @@ class Absensi(models.Model):
     keterangan = models.TextField(
         blank=True,
         null=True
+    )
+
+    guru = models.ForeignKey(
+        Guru,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )
 
     def __str__(self):

@@ -42,22 +42,13 @@ class SoalForm(forms.ModelForm):
         }
 
 
-class SoalForm(forms.ModelForm):
-
-    class Meta:
-
-        model = Soal
-
-        fields = "__all__"
-
-
 class UjianForm(forms.ModelForm):
 
     class Meta:
 
         model = Ujian
 
-        exclude = ["tahun_ajaran"]
+        exclude = ["tahun_ajaran", "guru"]
 
         widgets = {
 
@@ -69,9 +60,11 @@ class UjianForm(forms.ModelForm):
                 'class': 'form-control'
             }),
 
-            'kelas': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
+            'kelas': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
 
             'jurusan': forms.TextInput(attrs={
                 'class': 'form-control'
@@ -115,9 +108,23 @@ class TugasForm(forms.ModelForm):
 
         model = Tugas
 
-        fields = "__all__"
+        fields = [
+            'tahun_ajaran',
+            'judul',
+            'mata_pelajaran',
+            'kelas',
+            'deskripsi',
+            'file_tugas',
+            'deadline',
+        ]
 
         widgets = {
+
+            'kelas': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
 
             'deadline': forms.DateTimeInput(
                 attrs={
@@ -143,13 +150,6 @@ class TugasForm(forms.ModelForm):
         self.fields['deadline'].input_formats = (
             '%Y-%m-%dT%H:%M',
         )
-
-
-class TugasForm(forms.ModelForm):
-
-    class Meta:
-        model = Tugas
-        fields = '__all__'
 
 
 class PengumpulanTugasForm(forms.ModelForm):
@@ -194,7 +194,6 @@ class NilaiForm(forms.ModelForm):
 
         fields = [
             'siswa',
-            'guru',
             'mata_pelajaran',
             'tugas',
             'uts',

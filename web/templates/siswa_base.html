@@ -29,7 +29,8 @@
             background:linear-gradient(180deg, var(--primary), var(--primary-2));
             padding:22px 0;
             box-shadow:0 10px 30px rgba(13,110,253,0.12);
-            overflow-y:auto;
+            overflow-y:scroll;
+            scroll-behavior:smooth;
         }
 
         .sidebar-title{
@@ -74,6 +75,11 @@
             transform:translateY(-1px);
         }
 
+        .sidebar a.active{
+            background:rgba(255,255,255,0.25);
+            font-weight:600;
+        }
+
         .content{
             margin-left:260px;
             padding:28px;
@@ -116,14 +122,14 @@
     <div class="nav-sep"></div>
 
 
-    <a href="{% url 'dashboard_siswa' %}">🧭 Dashboard</a>
-    <a href="{% url 'jadwal_siswa' %}">📅 Jadwal Pelajaran</a>
-    <a href="{% url 'materi_saya' %}">📚 Materi Saya</a>
-    <a href="{% url 'tugas_saya' %}">📝 Tugas Saya</a>
-    <a href="{% url 'hasil_tugas' %}">📄 Hasil Penilaian Tugas</a>
-    <a href="{% url 'ujian_saya' %}">🧠 Ujian Saya</a>
-    <a href="{% url 'nilai_saya' %}">🏅 Nilai Akademik Saya</a>
-    <a href="{% url 'absensi_saya' %}">🗂️ Absensi Saya</a>
+    <a href="{% url 'dashboard_siswa' %}" class="{% if request.path == '/dashboard/siswa/' %}active{% endif %}">🧭 Dashboard</a>
+    <a href="{% url 'jadwal_siswa' %}" class="{% if '/jadwal/' in request.path and 'siswa' in request.path %}active{% endif %}">📅 Jadwal Pelajaran</a>
+    <a href="{% url 'materi_saya' %}" class="{% if '/nilai/materi-saya/' in request.path %}active{% endif %}">📚 Materi Saya</a>
+    <a href="{% url 'tugas_saya' %}" class="{% if '/nilai/tugas-saya/' in request.path %}active{% endif %}">📝 Tugas Saya</a>
+    <a href="{% url 'hasil_tugas' %}" class="{% if '/nilai/hasil-tugas/' in request.path %}active{% endif %}">📄 Hasil Penilaian Tugas</a>
+    <a href="{% url 'ujian_saya' %}" class="{% if '/nilai/ujian-saya/' in request.path or '/nilai/ujian/' in request.path %}active{% endif %}">🧠 Ujian Saya</a>
+    <a href="{% url 'nilai_saya' %}" class="{% if '/nilai/nilai-saya/' in request.path %}active{% endif %}">🏅 Nilai Akademik Saya</a>
+    <a href="{% url 'absensi_saya' %}" class="{% if '/nilai/absensi-saya/' in request.path %}active{% endif %}">🗂️ Absensi Saya</a>
 
 
     <div class="nav-sep"></div>

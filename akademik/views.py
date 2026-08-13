@@ -44,10 +44,21 @@ from web.models import TahunAjaran
 
 @login_required
 def hasil_semua(request):
-    hasil = HasilUjian.objects.select_related(
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    ujian_ids = Ujian.objects.filter(
+        guru=guru
+    ).values_list('id', flat=True)
+
+    hasil = HasilUjian.objects.filter(
+        ujian__in=ujian_ids
+    ).select_related(
         "siswa",
         "ujian"
-    ).all()
+    )
 
     return render(
         request,
@@ -346,13 +357,23 @@ def hapus_soal(request,id):
         id=id
     )
 
-    ujian=soal.ujian.id
+    ujian=soal.ujian
 
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if ujian.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
+
+    ujian_id = ujian.id
     soal.delete()
 
     return redirect(
         'daftar_soal',
-        ujian
+        ujian_id
     )
 
 @login_required
@@ -362,6 +383,17 @@ def edit_soal(request,id):
         Soal,
         id=id
     )
+
+    ujian = soal.ujian
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if ujian.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     form=SoalForm(
         request.POST or None,
@@ -374,14 +406,15 @@ def edit_soal(request,id):
 
         return redirect(
             'daftar_soal',
-            soal.ujian.id
+            ujian.id
         )
 
     return render(
         request,
         'soal/form.html',
         {
-            'form':form
+            'form':form,
+            'ujian': ujian
         }
     )
 
@@ -393,8 +426,24 @@ def tambah_soal(request, ujian_id):
         id=ujian_id
     )
 
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if ujian.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
+
+    soal_terakhir = Soal.objects.filter(
+        ujian=ujian
+    ).order_by('-nomor').first()
+
+    nomor_awal = (soal_terakhir.nomor + 1) if soal_terakhir else 1
+
     form = SoalForm(
-        request.POST or None
+        request.POST or None,
+        initial={'nomor': nomor_awal}
     )
 
     if form.is_valid():
@@ -420,7 +469,6 @@ def tambah_soal(request, ujian_id):
     )
 
 
-
 @login_required
 def daftar_soal(request, ujian_id):
 
@@ -428,6 +476,15 @@ def daftar_soal(request, ujian_id):
         Ujian,
         id=ujian_id
     )
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if ujian.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     soal = Soal.objects.filter(
         ujian=ujian
@@ -449,20 +506,20 @@ def tambah_ujian(request):
     form = UjianForm(request.POST or None)
 
     if form.is_valid():
-        # Cari Tahun Ajaran yang aktif
         tahun = TahunAjaran.objects.filter(aktif=True).first()
 
-        # Jika belum ada Tahun Ajaran aktif
         if tahun is None:
             return HttpResponse("Belum ada Tahun Ajaran yang aktif.")
 
-        # Jangan langsung simpan
         ujian = form.save(commit=False)
-
-        # Isi Tahun Ajaran otomatis
         ujian.tahun_ajaran = tahun
 
-        # Baru simpan
+        guru = get_object_or_404(
+            Guru,
+            user=request.user
+        )
+        ujian.guru = guru
+
         ujian.save()
 
         return redirect("daftar_ujian")
@@ -478,8 +535,14 @@ def tambah_ujian(request):
 
 @login_required
 def daftar_ujian(request):
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
 
-    data = Ujian.objects.all().order_by('-tanggal_mulai')
+    data = Ujian.objects.filter(
+        guru=guru
+    ).order_by('-tanggal_mulai')
 
     return render(
         request,
@@ -535,6 +598,15 @@ def catatan_guru(request, id):
 @login_required
 def nilai_tugas(request, id):
     pengumpulan = get_object_or_404(PengumpulanTugas, id=id)
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if pengumpulan.tugas.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     if request.method == 'POST':
         nilai = request.POST.get('nilai')
@@ -601,11 +673,19 @@ def nilai_tugas(request, id):
 @login_required
 def daftar_pengumpulan(request, id):
 
-
     tugas = get_object_or_404(
         Tugas,
         id=id
     )
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if tugas.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     data = PengumpulanTugas.objects.filter(
         tugas=tugas
@@ -702,6 +782,7 @@ def tugas_saya(request):
 
 
 
+@login_required
 def hapus_tugas(request, id):
 
     tugas = get_object_or_404(
@@ -709,18 +790,37 @@ def hapus_tugas(request, id):
         id=id
     )
 
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if tugas.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
+
     tugas.delete()
 
     return redirect(
         'list_tugas'
     )
 
+@login_required
 def edit_tugas(request, id):
 
     tugas = get_object_or_404(
         Tugas,
         id=id
     )
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if tugas.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     if request.method == 'POST':
 
@@ -754,7 +854,13 @@ def edit_tugas(request, id):
     )
 
 
+@login_required
 def tambah_tugas(request):
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
 
     if request.method == 'POST':
 
@@ -765,7 +871,9 @@ def tambah_tugas(request):
 
         if form.is_valid():
 
-            form.save()
+            tugas = form.save(commit=False)
+            tugas.guru = guru
+            tugas.save()
 
             return redirect(
                 'list_tugas'
@@ -785,9 +893,17 @@ def tambah_tugas(request):
     )
 
 
+@login_required
 def list_tugas(request):
 
-    tugas = Tugas.objects.all().order_by('-tanggal_dibuat')
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    tugas = Tugas.objects.filter(
+        guru=guru
+    ).order_by('-tanggal_dibuat')
 
     return render(
         request,
@@ -927,7 +1043,6 @@ def absensi_saya(request):
 def tambah_absensi(request):
     initial = {}
 
-    # Terima input dari halaman daftar_absensi (GET: mata_pelajaran)
     mata_pelajaran = request.GET.get('mata_pelajaran')
     if mata_pelajaran:
         initial['mata_pelajaran'] = mata_pelajaran
@@ -935,7 +1050,13 @@ def tambah_absensi(request):
     if request.method == 'POST':
         form = AbsensiForm(request.POST)
         if form.is_valid():
-            form.save()
+            absensi = form.save(commit=False)
+            guru = get_object_or_404(
+                Guru,
+                user=request.user
+            )
+            absensi.guru = guru
+            absensi.save()
             return redirect('daftar_absensi')
     else:
         form = AbsensiForm(initial=initial)
@@ -951,7 +1072,14 @@ def tambah_absensi(request):
 
 @login_required
 def daftar_absensi(request):
-    data = Absensi.objects.all().select_related('siswa').order_by('-tanggal')
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    data = Absensi.objects.filter(
+        guru=guru
+    ).select_related('siswa').order_by('-tanggal')
 
     return render(
         request,
@@ -966,7 +1094,14 @@ def daftar_absensi(request):
 def edit_absensi(request, id):
     absensi = get_object_or_404(Absensi, id=id)
 
-    # Optional: batasi ke guru tertentu (kalau diperlukan) atau pakai permission decorator
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if absensi.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
 
     if request.method == 'POST':
         form = AbsensiForm(request.POST, instance=absensi)
@@ -982,6 +1117,16 @@ def edit_absensi(request, id):
 @login_required
 def hapus_absensi(request, id):
     absensi = get_object_or_404(Absensi, id=id)
+
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    if absensi.guru != guru:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied()
+
     absensi.delete()
     return redirect('daftar_absensi')
 
@@ -1051,7 +1196,14 @@ def nilai_saya(request):
 
 @login_required
 def daftar_nilai(request):
-    data = Nilai.objects.all()
+    guru = get_object_or_404(
+        Guru,
+        user=request.user
+    )
+
+    data = Nilai.objects.filter(
+        guru=guru
+    )
 
     return render(
         request,
@@ -1067,7 +1219,13 @@ def tambah_nilai(request):
     form = NilaiForm(request.POST or None)
 
     if form.is_valid():
-        form.save()
+        nilai = form.save(commit=False)
+        guru = get_object_or_404(
+            Guru,
+            user=request.user
+        )
+        nilai.guru = guru
+        nilai.save()
         return redirect('daftar_nilai')
 
     return render(request, 'nilai/form.html', {'form': form})

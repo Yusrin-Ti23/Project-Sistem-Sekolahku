@@ -624,6 +624,20 @@ def berita(request):
     return render(request,'berita.html',{'berita': data})
 
 
+def berita_detail(request, id):
+
+    berita = get_object_or_404(
+        Berita,
+        id=id
+    )
+
+    return render(
+        request,
+        'detail_berita.html',
+        {'berita': berita}
+    )
+
+
 
 
 def logout_user(request):

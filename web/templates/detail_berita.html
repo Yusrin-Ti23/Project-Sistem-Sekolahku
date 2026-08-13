@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+
+        <article class="card shadow border-0">
+
+            {% if berita.gambar %}
+            <img src="{{ berita.gambar.url }}" class="card-img-top" alt="{{ berita.judul }}">
+            {% endif %}
+
+            <div class="card-body">
+                <h2 class="fw-bold mb-1">{{ berita.judul }}</h2>
+                <p class="text-muted small mb-4">
+                    Dipublikasikan: {{ berita.tanggal|date:"d M Y, H:i" }}
+                </p>
+
+                <div class="text-break">
+                    {{ berita.isi|linebreaks }}
+                </div>
+            </div>
+
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'berita' %}" class="btn btn-outline-secondary btn-sm">
+                    ← Kembali ke Berita
+                </a>
+            </div>
+
+        </article>
+
+    </div>
+</div>
+
+{% endblock %}

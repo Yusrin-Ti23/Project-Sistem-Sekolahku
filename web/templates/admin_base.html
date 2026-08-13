@@ -26,6 +26,8 @@
             background:#0d6efd;
             position:fixed;
             padding-top:20px;
+            overflow-y:scroll;
+            scroll-behavior:smooth;
         }
 
         .sidebar h3{
@@ -44,6 +46,11 @@
 
         .sidebar a:hover{
             background:rgba(255,255,255,0.2);
+        }
+
+        .sidebar a.active{
+            background:rgba(255,255,255,0.25);
+            font-weight:600;
         }
 
         .content{
@@ -81,53 +88,39 @@
 </h4>
 
 </div>
-    <a href="/dashboard/">
+    <a href="/dashboard/" class="{% if request.path == '/dashboard/' %}active{% endif %}">
         🏠 Dashboard
     </a>
 
-    <li class="nav-item">
-
-    <a class="nav-link"
-
-    href="{% url 'verifikasi_pengguna' %}">
-
+    <a href="{% url 'verifikasi_pengguna' %}" class="{% if '/verifikasi/' in request.path %}active{% endif %}">
         ✅ Verifikasi Pengguna
-
     </a>
 
-    </li>
-
-    <a href="/guru/">
+    <a href="/guru/" class="{% if '/guru/' in request.path %}active{% endif %}">
         👩‍🏫 Data Guru
     </a>
 
-    <a href="/siswa/">
+    <a href="/siswa/" class="{% if '/siswa/' in request.path %}active{% endif %}">
         👨‍🎓 Data Siswa
     </a>
 
-     <li class="nav-item">
-        <a class="nav-link"href="{% url 'kelas_list' %}">
-
-             📚 Manajemen Kelas
-        </a>
-
-         <a href="{% url 'materi' %}">
-            🧠 Mata Pelajaran
-        </a>
-
-    </li>
-
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'jadwal_list' %}">
-           🗓️ Jadwal Pelajaran
+    <a href="{% url 'kelas_list' %}" class="{% if '/kelas/' in request.path %}active{% endif %}">
+        📚 Manajemen Kelas
     </a>
-    </li>
 
-    <a href="/tahun/">
+    <a href="{% url 'materi' %}" class="{% if '/nilai/materi/' in request.path %}active{% endif %}">
+        🧠 Mata Pelajaran
+    </a>
+
+    <a href="{% url 'jadwal_list' %}" class="{% if '/jadwal/' in request.path %}active{% endif %}">
+        🗓️ Jadwal Pelajaran
+    </a>
+
+    <a href="/tahun/" class="{% if '/tahun/' in request.path %}active{% endif %}">
         🗂️ Tahun Ajaran
     </a>
 
-    <a href="/">
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">
         🏫 Info Sekolahku
     </a>
 
