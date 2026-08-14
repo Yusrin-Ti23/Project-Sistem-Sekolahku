@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+db.sqlite3
+*.sqlite3
+
+# Static files hasil collectstatic
+staticfiles/
+
+# Media upload
+media/
+
+# Virtual environment
+venv/
+.venv/
+sekolah-venv/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
