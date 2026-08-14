@@ -201,16 +201,12 @@ def register_siswa(request):
 
         nis = form.cleaned_data.get("nis")
         kelas_obj = form.cleaned_data.get("kelas")
-        nama_kelas = None
-        if kelas_obj:
-            # Simpan sebagai string "{tingkat} {nama}"
-            nama_kelas = f"{kelas_obj.tingkat} {kelas_obj.nama}"
 
         Siswa.objects.create(
             user=user,
             nama=user.first_name,
             nis=nis,
-            kelas=nama_kelas,
+            kelas=kelas_obj,
             status="Menunggu"
         )
 
