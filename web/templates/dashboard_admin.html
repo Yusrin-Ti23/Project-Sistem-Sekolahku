@@ -2,18 +2,51 @@
 
 {% block content %}
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            padding: 30px;
+            text-align: center;
+        }
         h2 {
             color: #2c3e50;
-            font-family: Arial, sans-serif;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
         p {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
+            font-size: 18px;
+            color: #555;
         }
     </style>
 
-    <h2>Dashboard Admin</h2>
-    <p>Selamat datang Admin1</p>
+    <div class="dashboard-container">
+        <div class="card">
+            <div class="card-header">
+                Dashboard Admin
+            </div>
+            <div class="card-body">
+                <h2>Selamat Datang, Admin1</h2>
+                <p>Semoga hari Anda menyenangkan dan produktif.</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
